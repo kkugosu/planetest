@@ -54,7 +54,7 @@ if __name__ == "__main__":
         valid = 0
         while valid == 0:
             print("enter envname, {narrow, plane, wallplane}")
-            env_name = "wallplane"#input("->")
+            env_name = "plane"#input("->")
             if env_name == "narrow":
                 env = narrow.Narrow()
                 valid = 1
