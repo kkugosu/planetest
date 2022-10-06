@@ -8,29 +8,6 @@ GAMMA = 0.98
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def state_converter(state):
-    x = torch.arange(9) * 100 - 400
-    y = torch.arange(9) * 100 - 400
-    grid_x, grid_y = torch.meshgrid(x, y, indexing='ij')
-    xy = torch.cat((grid_x.unsqueeze(-1), grid_y.unsqueeze(-1)), -1).to(DEVICE)
-
-    out = torch.exp(-torch.sum(torch.square(xy - state)/10000, -1))
-
-    # out.view(-1).size()
-    return out.reshape(-1, 81).squeeze()
-
-
-def batch_state_converter(state):
-    x = torch.arange(9) * 100 - 400
-    y = torch.arange(9) * 100 - 400
-    grid_x, grid_y = torch.meshgrid(x, y, indexing='ij')
-    xy = torch.cat((grid_x.unsqueeze(-1), grid_y.unsqueeze(-1)), -1).to(DEVICE)
-
-    out = torch.exp(-torch.sum(torch.square(xy.unsqueeze(0) - state.unsqueeze(1).unsqueeze(1))/10000, -1))
-
-    return out.reshape(-1, 81).squeeze()
-
-
 class SACPolicy(BASE.BasePolicy):
     def __init__(self, *args) -> None:
         super().__init__(*args)
